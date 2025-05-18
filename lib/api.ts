@@ -44,3 +44,24 @@ export const generateUrl = async (URL: string) => {
       throw error;
    }
 }
+
+// find analysis data
+export const findAnalysisData = async (findUrl: {
+   originalUrl?: string
+   shortCode?: string;
+}) => {
+   try {
+      const res = await fetch('/api/analysis', {
+         method: "POST",
+         headers: {
+            "Content-Type": "application/json",
+         },
+         body: JSON.stringify(findUrl),
+      });
+
+      return res; 
+   } catch (error) {
+      console.error("Error fetching analysis data:", error);
+      throw error;
+   }
+}

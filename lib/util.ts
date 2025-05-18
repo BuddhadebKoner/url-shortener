@@ -12,7 +12,7 @@ export const isValidUrl = (url: string) => {
    try {
       const parsedUrl = new URL(url);
       return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
-   } catch (err) {
+   } catch {
       return false;
    }
 }
@@ -26,6 +26,6 @@ export const formatUrl = (url: string) => {
 }
 
 // get Full Short Url
-export function getFullShortUrl(shortCode: String, baseUrl: String) {
+export function getFullShortUrl(shortCode: string, baseUrl: string) {
    return `${baseUrl}/${shortCode}`;
 }

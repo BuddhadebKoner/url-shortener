@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
       // connect to database
       await connectToDatabase();
 
-      let urlDoc = await Url.findOne({ originalUrl: URL });
+      const urlDoc = await Url.findOne({ originalUrl: URL });
 
       if (urlDoc) {
          return NextResponse.json(

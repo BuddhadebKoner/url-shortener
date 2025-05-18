@@ -1,5 +1,5 @@
 import { connectToDatabase } from "@/lib/db";
-import { formatUrl, generateUniqueCode, isValidUrl } from "@/lib/util";
+import { formatUrl, generateUniqueCode, isValidUrl } from "@/utility/util";
 import { NextRequest, NextResponse } from "next/server";
 import Url from "@/models/url.model";
 

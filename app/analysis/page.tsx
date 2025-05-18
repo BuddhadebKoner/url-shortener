@@ -5,7 +5,7 @@ import Navbar from '@/components/shared/Navbar'
 import AnalysisResult from '@/components/shared/AnalysisResult'
 import { findAnalysisData } from '@/lib/api'
 import { AlertCircle, Link2, LinkIcon, Search } from 'lucide-react'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 // Define the type for analysis data
 type AnalysisData = {
@@ -48,7 +48,7 @@ const Page = () => {
       }
       // Otherwise, assume it's just the code
       return input;
-    } catch (e) {
+    } catch  {
       // If URL parsing fails, return the original value
       return input;
     }
@@ -64,7 +64,7 @@ const Page = () => {
       try {
         new URL(searchValue);
         // URL is valid
-      } catch (e) {
+      } catch {
         setError('Please enter a valid URL');
         return false;
       }
@@ -113,9 +113,9 @@ const Page = () => {
       } else {
         throw new Error(responseData.message || 'No data found');
       }
-    } catch (err: any) {
-      console.error('Error fetching analysis data:', err);
-      setError(err.message || 'Failed to fetch analysis data. Please try again.');
+    } catch {
+      console.error('Error fetching analysis data:');
+      setError('Failed to fetch analysis data. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -177,7 +177,7 @@ const Page = () => {
                       placeholder="AeeoET"
                       className="w-full px-4 py-3 pl-[calc(1rem+var(--base-url-width))] bg-input text-foreground rounded-md border border-border/50 focus:ring-2 focus:ring-accent focus:outline-none shadow-inner transition-all duration-300"
                       disabled={isLoading}
-                      style={{ "--base-url-width": `${BASE_URL.length * 0.5}rem` } as any}
+                      style={{ "--base-url-width": `${BASE_URL.length * 0.5}rem` } as React.CSSProperties}
                     />
                   </div>
                 ) : (

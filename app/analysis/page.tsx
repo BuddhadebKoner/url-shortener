@@ -48,7 +48,7 @@ const Page = () => {
       }
       // Otherwise, assume it's just the code
       return input;
-    } catch  {
+    } catch {
       // If URL parsing fails, return the original value
       return input;
     }
@@ -100,7 +100,7 @@ const Page = () => {
       }
 
       const res = await findAnalysisData(findUrl);
-
+      console.log('Response:', res);
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.message || 'Failed to fetch analysis data');

@@ -10,12 +10,59 @@ type AnalysisData = {
       ip: string;
       userAgent: string;
       timestamp: Date;
+      _id?: string;
    }[];
 }
 
 type AnalysisResultProps = {
    analysisData: AnalysisData;
 }
+
+// Function to extract OS and browser information from userAgent
+const parseUserAgent = (userAgent: string) => {
+   let os = "Unknown";
+   let browser = "Unknown";
+   
+   // OS detection
+   if (userAgent.includes("Windows")) os = "Windows";
+   else if (userAgent.includes("Mac OS")) os = "macOS";
+   else if (userAgent.includes("Linux")) os = "Linux";
+   else if (userAgent.includes("Android")) os = "Android";
+   else if (userAgent.includes("iOS") || userAgent.includes("iPhone") || userAgent.includes("iPad")) os = "iOS";
+   
+   // Browser detection
+   if (userAgent.includes("Chrome") && !userAgent.includes("Edg")) browser = "Chrome";
+   else if (userAgent.includes("Firefox")) browser = "Firefox";
+   else if (userAgent.includes("Safari") && !userAgent.includes("Chrome")) browser = "Safari";
+   else if (userAgent.includes("Edg")) browser = "Edge";
+   else if (userAgent.includes("OPR") || userAgent.includes("Opera")) browser = "Opera";
+
+   return { os, browser };
+};
+
+// Function to get the OS icon
+const getOSIcon = (os: string) => {
+   switch (os) {
+      case "Windows": return "🪟";
+      case "macOS": return "🍎";
+      case "Linux": return "🐧";
+      case "Android": return "📱";
+      case "iOS": return "📱";
+      default: return "💻";
+   }
+};
+
+// Function to get the browser icon
+const getBrowserIcon = (browser: string) => {
+   switch (browser) {
+      case "Chrome": return "🌐";
+      case "Firefox": return "🦊";
+      case "Safari": return "🧭";
+      case "Edge": return "🌐";
+      case "Opera": return "🌐";
+      default: return "🌐";
+   }
+};
 
 const AnalysisResult = ({ analysisData }: AnalysisResultProps) => {
    return (
@@ -71,15 +118,30 @@ const AnalysisResult = ({ analysisData }: AnalysisResultProps) => {
                            <tr className="text-left border-b border-border">
                               <th className="pb-2">Time</th>
                               <th className="pb-2">IP</th>
+                              <th className="pb-2">Device</th>
+                              <th className="pb-2">Browser</th>
                            </tr>
                         </thead>
                         <tbody>
-                           {analysisData.visits.slice(0, 10).map((visit, idx) => (
-                              <tr key={idx} className="border-b border-border/50">
-                                 <td className="py-2">{new Date(visit.timestamp).toLocaleString()}</td>
-                                 <td className="py-2">{visit.ip}</td>
-                              </tr>
-                           ))}
+                           {analysisData.visits.slice(0, 10).map((visit, idx) => {
+                              const { os, browser } = parseUserAgent(visit.userAgent);
+                              return (
+                                 <tr key={idx} className="border-b border-border/50">
+                                    <td className="py-2">{new Date(visit.timestamp).toLocaleString()}</td>
+                                    <td className="py-2">{visit.ip}</td>
+                                    <td className="py-2">
+                                       <span title={visit.userAgent}>
+                                          {getOSIcon(os)} {os}
+                                       </span>
+                                    </td>
+                                    <td className="py-2">
+                                       <span>
+                                          {getBrowserIcon(browser)} {browser}
+                                       </span>
+                                    </td>
+                                 </tr>
+                              );
+                           })}
                         </tbody>
                      </table>
                   </div>

@@ -88,3 +88,25 @@ export const generateCustomUrl = async (URL: string, customCode: string) => {
       throw error;
    }
 }
+
+// get stats
+export const getStats = async () => { 
+   try {
+      const res = await fetch('/api/stats', {
+         method: "GET",
+         headers: {
+            "Content-Type": "application/json",
+         },
+      });
+
+      if (!res.ok) {
+         throw new Error("Failed to fetch stats");
+      }
+
+      const data = await res.json();
+      return data.data;
+   } catch (error) {
+      console.error("Error fetching stats:", error);
+      throw error;
+   }
+}

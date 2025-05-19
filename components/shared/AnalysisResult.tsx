@@ -1,4 +1,5 @@
 import React from 'react';
+import GraphStats from '../ui/GraphStats';
 
 // Define the type for analysis data
 type AnalysisData = {
@@ -22,14 +23,14 @@ type AnalysisResultProps = {
 const parseUserAgent = (userAgent: string) => {
    let os = "Unknown";
    let browser = "Unknown";
-   
+
    // OS detection
    if (userAgent.includes("Windows")) os = "Windows";
    else if (userAgent.includes("Mac OS")) os = "macOS";
    else if (userAgent.includes("Linux")) os = "Linux";
    else if (userAgent.includes("Android")) os = "Android";
    else if (userAgent.includes("iOS") || userAgent.includes("iPhone") || userAgent.includes("iPad")) os = "iOS";
-   
+
    // Browser detection
    if (userAgent.includes("Chrome") && !userAgent.includes("Edg")) browser = "Chrome";
    else if (userAgent.includes("Firefox")) browser = "Firefox";
@@ -108,6 +109,10 @@ const AnalysisResult = ({ analysisData }: AnalysisResultProps) => {
                   </div>
                </div>
             </div>
+
+            <GraphStats
+               visits={analysisData.visits}
+            />
 
             {analysisData.visits && analysisData.visits.length > 0 && (
                <div className="bg-card/50 p-4 rounded-lg">

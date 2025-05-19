@@ -59,9 +59,32 @@ export const findAnalysisData = async (findUrl: {
          body: JSON.stringify(findUrl),
       });
 
-      return res; 
+      return res;
    } catch (error) {
       console.error("Error fetching analysis data:", error);
+      throw error;
+   }
+}
+
+// generate custom url
+export const generateCustomUrl = async (URL: string, customCode: string) => {
+   try {
+      const res = await fetch('/api/shorten/custom', {
+         method: "POST",
+         headers: {
+            "Content-Type": "application/json",
+         },
+         body: JSON.stringify({ URL, customCode }),
+      });
+
+      if (!res.ok) {
+         throw new Error("Failed to generate custom URL");
+      }
+
+      const responce = await res.json();
+      return responce;
+   } catch (error) {
+      console.error("Error generating custom URL:", error);
       throw error;
    }
 }

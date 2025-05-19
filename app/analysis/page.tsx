@@ -20,8 +20,6 @@ type AnalysisData = {
   }[];
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
-
 const Page = () => {
   const [searchType, setSearchType] = React.useState<'url' | 'code'>('url')
   const [searchValue, setSearchValue] = React.useState('')
@@ -100,7 +98,7 @@ const Page = () => {
       }
 
       const res = await findAnalysisData(findUrl);
-      console.log('Response:', res);
+      // console.log('Response:', res);
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.message || 'Failed to fetch analysis data');
@@ -158,16 +156,18 @@ const Page = () => {
                     }`}
                 >
                   <Link2 className="h-4 w-4" />
-                  <span>Short URL</span>
+                  <span>Short Code</span>
                 </button>
               </div>
 
               {/* Search input */}
               <div className="flex flex-col sm:flex-row gap-3">
                 {searchType === 'code' ? (
-                  <div className="flex-1 relative">
-                    <div className="absolute left-0 top-0 bottom-0 flex items-center pl-4 text-muted-foreground pointer-events-none">
-                      {BASE_URL}
+                  <div className="w-full flex flex-col sm:flex-row items-center gap-2">
+                    <div className="flex items-center bg-input text-foreground rounded-md border border-border/50 shadow-inner px-3 py-2 text-sm text-muted-foreground">
+                      <span className="text-primary font-medium">
+                        {process.env.NEXT_PUBLIC_BASE_URL}/
+                      </span>
                     </div>
                     <input
                       type="text"
@@ -175,9 +175,8 @@ const Page = () => {
                       onChange={(e) => setSearchValue(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder="AeeoET"
-                      className="w-full px-4 py-3 pl-[calc(1rem+var(--base-url-width))] bg-input text-foreground rounded-md border border-border/50 focus:ring-2 focus:ring-accent focus:outline-none shadow-inner transition-all duration-300"
+                      className="w-full sm:flex-1 px-4 py-2 bg-input text-foreground rounded-md border border-border/50 focus:ring-2 focus:ring-accent focus:outline-none shadow-inner transition-all duration-300"
                       disabled={isLoading}
-                      style={{ "--base-url-width": `${BASE_URL.length * 0.5}rem` } as React.CSSProperties}
                     />
                   </div>
                 ) : (
